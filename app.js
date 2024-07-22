@@ -2,10 +2,12 @@ require("dotenv").config()
 const { ApolloServer } = require("@apollo/server")
 const { startStandaloneServer } = require("@apollo/server/standalone");
 const { mongoConnect } = require("./config/mongoConnection");
+const { userTypeDefs, userResolvers } = require("./schemas/user");
 // const {} = require("")
 
 const server = new ApolloServer({
-
+    typeDefs: [userTypeDefs],
+    resolvers: [userResolvers]
 });
 
 (async () => {

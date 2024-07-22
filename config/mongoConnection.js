@@ -12,11 +12,11 @@ const dbName = "LinkedIn_Project"
 async function mongoConnect() {
     try {
         await client.connect()
-        console.log("Success");
+        console.log("Success Connect Mongo");
 
         return "done."
     } catch (error) {
-        console.log("Mongo");
+        console.log("Mongo Connection Error", error);
         throw error
     }
 }

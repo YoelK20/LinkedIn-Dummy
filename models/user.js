@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongodb")
 const { getDatabase } = require("../config/mongoConnection")
+const { token } = require("../helpers/jwt")
 
 const UserDB = () => {
     return getDatabase().collection("Users")
@@ -30,7 +31,12 @@ const findUserByUsername = async (username) => {
     return user
 }
 
-const registerUser = async (pl) => {
+const findUserByEmail = async (email) => {
+    const user = await UserDB().findOne({ email })
+    return user
+}
+
+const registerNewUser = async (pl) => {
     const newUser = await UserDB().insertOne(pl)
     const dataUser = await UserDB().findOne({
         _id: new ObjectId(newUser.insertedId)
@@ -39,10 +45,18 @@ const registerUser = async (pl) => {
     return dataUser
 }
 
+const Login = async (pl) => {
+    const data = token(pl)
+
+    return data
+}
+
 module.exports = {
     findAllUser,
     findUserById,
     findUserByName,
     findUserByUsername,
-    registerUser
+    findUserByEmail,
+    registerNewUser,
+    Login
 }
