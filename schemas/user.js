@@ -43,7 +43,9 @@ const typeDefs = `#graphql
 
 const resolvers = {
     Query: {
-        getUsers: async () => {
+        getUsers: async (_parent, _args, contextValue) => {
+            // const userLogin = await contextValue.authentication()
+            // console.log(userLogin);
             const users = await findAllUser()
 
             return users
@@ -76,6 +78,8 @@ const resolvers = {
         registerUser: async (_parent, args) => {
             const { name, username, email, password } = args.input
 
+
+
             const dataUser = await registerNewUser({
                 name,
                 username,
@@ -90,20 +94,36 @@ const resolvers = {
             const { email, password } = args.input
 
             const isEmailValid = await findUserByEmail(email)
-            if (!isEmailValid) throw "Invalid Email"
+            if (!isEmailValid) {
+
+                throw new GraphQLError("Invalid Email or Password", {
+                    extensions: {
+                        code: 'Unauthorized',
+                        http: { status: 401 },
+                    },
+                });
+            }
             // console.log(isEmailValid.password);
 
             const isPassValid = comparePassword(password, isEmailValid.password)
-            if (!isPassValid) throw "Invalid Password"
+            if (!isPassValid) {
+
+                throw new GraphQLError("Invalid Email or Password", {
+                    extensions: {
+                        code: 'Unauthorized',
+                        http: { status: 401 },
+                    },
+                });
+            }
 
             const payload = {
-                _id: isEmailValid._id,
+                id: isEmailValid._id,
                 name: isEmailValid.name,
                 username: isEmailValid.username,
                 email: isEmailValid.email
             }
             const access_token = token(payload)
-            console.log(isEmailValid.username, access_token)
+            // console.log(isEmailValid.username, access_token)
 
             return { username: isEmailValid.username, access_token }
         }
