@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const { findAllPosts, findPostById, createPost, createComment } = require("../models/post");
+const { findAllPosts, findPostById, createPost, createComment, createLikes } = require("../models/post");
 
 const typeDefs = `#graphql
     type Post {
@@ -8,20 +8,20 @@ const typeDefs = `#graphql
         tags: [String]
         imgUrl: String
         authorId: ID
-        comments:[Comments]
-        likes: [Likes]
+        comments:[Comment]
+        likes: [Like]
         createdAt: String
         updatedAt: String
     }
 
-    type Comments {
+    type Comment {
         content: String
         username: String
         createdAt: String
         updatedAt: String
     }
 
-    type Likes {
+    type Like {
         username: String
         createdAt: String
         updatedAt: String
@@ -50,8 +50,8 @@ const typeDefs = `#graphql
 
     type Mutation {
         addPost(input: CreatePostInput): Post
-        addComment(input: CreateComments, content: String!): Post
-        addLikes(input: CreateLikes, content: String!): Post
+        addComment(input: CreateComments): Post
+        addLikes(input: CreateLikes): Post
     }
 `;
 
@@ -91,16 +91,28 @@ const resolvers = {
         addComment: async (_parent, args, contextValue) => {
             const userLogin = await contextValue.authentication()
 
-            const {postId, content} = args.input
+            const { postId, content } = args.input
 
-            return await createComment(postId, {
+            const comments = await createComment(postId, {
                 content,
                 username: userLogin.username,
                 createdAt: new Date(),
                 updatedAt: new Date()
             }
-        )
+            )
+            return comments
 
+        },
+        addLikes: async (_parent, args, contextValue) => {
+            const userLogin = await contextValue.authentication()
+            const { postId } = args.input
+            const likes = await createLikes(postId, {
+                username: userLogin.username,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            }
+            )
+            return likes
         }
     }
 }

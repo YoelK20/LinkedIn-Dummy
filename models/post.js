@@ -14,6 +14,7 @@ const findPostById = async (id) => {
     const post = await PostsTable().findOne({
         _id: new ObjectId(id)
     })
+    return post
 }
 
 const createPost = async (data) => {
@@ -38,4 +39,17 @@ const createComment = async (id, data) => {
     return postData
 }
 
-module.exports = { findAllPosts, findPostById, createPost, createComment }
+const createLikes = async (id, data) => {
+    const updatePost = await PostsTable().updateOne(
+        {_id: new ObjectId(id)},
+        {$push: {likes: data}}
+    )
+    
+    const postData = await PostsTable().findOne({
+        _id: new ObjectId(id)
+    })
+
+    return postData
+}
+
+module.exports = { findAllPosts, findPostById, createPost, createComment, createLikes }
