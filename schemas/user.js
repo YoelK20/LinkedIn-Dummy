@@ -1,6 +1,7 @@
+const { GraphQLError } = require("graphql");
 const { hash, comparePassword } = require("../helpers/bcrypt");
 const { token } = require("../helpers/jwt");
-const { findAllUser, findUserById, registerNewUser, findUserByEmail, findUserByQuery } = require("../models/user");
+const { findAllUser, findUserById, registerNewUser, findUserByEmail, findUserByQuery, findUserByUsername } = require("../models/user");
 
 const typeDefs = `#graphql
     type User {
@@ -73,7 +74,44 @@ const resolvers = {
         registerUser: async (_parent, args) => {
             const { name, username, email, password } = args.input
 
+            const checkUsername = await findUserByUsername(username)
+            if(checkUsername) {
+                throw new GraphQLError("Username already Exists", {
+                    extensions: {
+                        code: 'Error Unique',
+                        http: { status: 400 },
+                    },
+                });
+            }
 
+            const checkEmail = await findUserByEmail(email)
+
+            if(checkEmail){
+                throw new GraphQLError("Email already Exists", {
+                    extensions: {
+                        code: 'Error Unique',
+                        http: { status: 400 },
+                    },
+                });
+            }
+
+            if(password.length < 5){
+                throw new GraphQLError("Password must contain at least 5 characters", {
+                    extensions: {
+                        code: 'Invalid Password',
+                        http: { status: 400 },
+                    },
+                });
+            }
+
+            if(!email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+                throw new GraphQLError("Invalid Email Format", {
+                    extensions: {
+                        code: 'Invalid Email',
+                        http: { status: 400 },
+                    },
+                })
+            }
 
             const dataUser = await registerNewUser({
                 name,

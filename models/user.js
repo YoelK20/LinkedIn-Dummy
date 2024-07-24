@@ -197,10 +197,10 @@ const findUserByQuery = async (query) => {
     return user[0]
 }
 
-// const findUserByUsername = async (username) => {
-//     const user = await UserDB().findOne({ username })
-//     return user
-// }
+const findUserByUsername = async (username) => {
+    const user = await UserDB().findOne({ username })
+    return user
+}
 
 const findUserByEmail = async (email) => {
     const user = await UserDB().findOne({ email })
@@ -227,6 +227,7 @@ module.exports = {
     findUserById,
     findUserByQuery,
     findUserByEmail,
+    findUserByUsername,
     registerNewUser,
     Login
 }
