@@ -1,6 +1,6 @@
 const { hash, comparePassword } = require("../helpers/bcrypt");
 const { token } = require("../helpers/jwt");
-const { findAllUser, findUserById, findUserByName, findUserByUsername, registerNewUser, findUserByEmail } = require("../models/user");
+const { findAllUser, findUserById, registerNewUser, findUserByEmail, findUserByQuery } = require("../models/user");
 
 const typeDefs = `#graphql
     type User {
@@ -31,8 +31,7 @@ const typeDefs = `#graphql
     type Query {
         getUsers: [User]
         getUserById(_id: ID): User
-        getUserByName(name: String!): User
-        getUserByUsername(username: String!): User
+        getUserByQuery(query: String!): User
     }
 
     type Mutation {
@@ -45,7 +44,7 @@ const resolvers = {
     Query: {
         getUsers: async (_parent, _args, contextValue) => {
             // const userLogin = await contextValue.authentication()
-            // console.log(userLogin);
+            // console.log(userLogin);  
             const users = await findAllUser()
 
             return users
@@ -59,19 +58,13 @@ const resolvers = {
             return user
         },
 
-        getUserByName: async (_parent, args) => {
-            const { name } = args
-            const user = await findUserByName(name)
+        getUserByQuery: async (_parent, args) => {
+            const { query } = args
+            const user = await findUserByQuery(query)
 
             return user
         },
 
-        getUserByUsername: async (_parent, args) => {
-            const { username } = args
-            const user = await findUserByUsername(username)
-
-            return user
-        }
     },
 
     Mutation: {

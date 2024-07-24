@@ -6,15 +6,60 @@ const PostsTable = () => {
 }
 
 const findAllPosts = async () => {
-    const posts = await PostsTable().find().toArray()
+    const agg = [
+        {
+          '$lookup': {
+            'from': 'Users', 
+            'localField': 'authorId', 
+            'foreignField': '_id', 
+            'as': 'author'
+          }
+        }, {
+          '$unwind': {
+            'path': '$author', 
+            'preserveNullAndEmptyArrays': true
+          }
+        }, {
+          '$project': {
+            'author.password': 0
+          }
+        }, {
+          '$sort': {
+            'createdAt': -1
+          }
+        }
+      ]
+    const posts = await PostsTable().aggregate(agg).toArray()
     return posts
 }
 
 const findPostById = async (id) => {
-    const post = await PostsTable().findOne({
-        _id: new ObjectId(id)
-    })
-    return post
+    const agg = [
+        {
+          '$lookup': {
+            'from': 'Users', 
+            'localField': 'authorId', 
+            'foreignField': '_id', 
+            'as': 'author'
+          }
+        }, {
+          '$unwind': {
+            'path': '$author', 
+            'preserveNullAndEmptyArrays': true
+          }
+        }, {
+          '$project': {
+            'author.password': 0
+          }
+        }, {
+          '$match': {
+            '_id': new ObjectId('669f80e30d43a7fbd0fb0e93')
+          }
+        }
+      ]
+    const post = await PostsTable().aggregate(agg).toArray();
+
+    return post[0];
 }
 
 const createPost = async (data) => {

@@ -20,16 +20,21 @@ const findUserById = async (id) => {
     return user
 }
 
-const findUserByName = async (name) => {
-    const user = await UserDB().findOne({ name })
+const findUserByQuery = async (query) => {
+    const user = await UserDB().findOne({ 
+        $or: [
+            {username: {$regex: `(?i)${query}(?-i)`}},
+            {name: {$regex: `(?i)${query}(?-i)`}}
+        ]
+     })
 
     return user
 }
 
-const findUserByUsername = async (username) => {
-    const user = await UserDB().findOne({ username })
-    return user
-}
+// const findUserByUsername = async (username) => {
+//     const user = await UserDB().findOne({ username })
+//     return user
+// }
 
 const findUserByEmail = async (email) => {
     const user = await UserDB().findOne({ email })
@@ -54,8 +59,7 @@ const Login = async (pl) => {
 module.exports = {
     findAllUser,
     findUserById,
-    findUserByName,
-    findUserByUsername,
+    findUserByQuery,
     findUserByEmail,
     registerNewUser,
     Login
