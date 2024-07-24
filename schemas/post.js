@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongodb");
 const { findAllPosts, findPostById, createPost, createComment, createLikes } = require("../models/post");
+const redis = require("../config/redis")
 
 const typeDefs = `#graphql
     type Post {
