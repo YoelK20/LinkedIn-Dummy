@@ -7,28 +7,65 @@ const UserDB = () => {
 }
 
 const findAllUser = async () => {
-    const users = await UserDB().find().toArray()
+    const agg = [
+        {
+            '$project': {
+                'password': 0
+            }
+        }
+    ]
+    const users = await UserDB().aggregate(agg).toArray()
 
     return users
 }
 
 const findUserById = async (id) => {
-    const user = await UserDB().findOne({
-        _id: new ObjectId(id)
-    })
 
-    return user
+    const agg = [
+        {
+            '$match': {
+                _id: new ObjectId(id),
+            }
+        }, {
+            '$project': {
+                'password': 0,
+                '_id': 0
+            }
+        }
+    ];
+
+    const user = await UserDB().aggregate(agg).toArray()
+
+    return user[0]
 }
 
 const findUserByQuery = async (query) => {
-    const user = await UserDB().findOne({ 
-        $or: [
-            {username: {$regex: `(?i)${query}(?-i)`}},
-            {name: {$regex: `(?i)${query}(?-i)`}}
-        ]
-     })
+    const agg = [
+        {
+            '$match': {
+                '$or': [
+                    {
+                        'username': {
+                            '$regex': `(?i)${query}(?-i)`
+                        }
+                    }, {
+                        'name': {
+                            '$regex': `(?i)${query}(?-i)`
+                        }
+                    }
+                ]
+            }
+        }, {
+            '$project': {
+                'password': 0,
+                '_id': 0
+            }
+        }
+    ];
 
-    return user
+    const user = await UserDB().aggregate(agg).toArray()
+    console.log(user);
+    return user[0]
 }
 
 // const findUserByUsername = async (username) => {
