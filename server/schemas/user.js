@@ -1,7 +1,7 @@
 const { GraphQLError } = require("graphql");
 const { hash, comparePassword } = require("../helpers/bcrypt");
 const { token } = require("../helpers/jwt");
-const { findAllUser, findUserById, registerNewUser, findUserByEmail, findUserByQuery, findUserByUsername } = require("../models/user");
+const { findAllUser, findUserById, registerNewUser, findUserByEmail, findUserByQuery, findUserByUsername, findMyProfile } = require("../models/user");
 
 const typeDefs = `#graphql
     type User {
@@ -35,6 +35,7 @@ const typeDefs = `#graphql
         getUsers: [User]
         getUserById(_id: ID): User
         getUserByQuery(query: String!): User
+        getMyProfile: User
     }
 
     type Mutation {
@@ -67,6 +68,13 @@ const resolvers = {
 
             return user
         },
+
+        getMyProfile: async (_parent, _args, contextValue) => {
+            const userLogin = await contextValue.authentication()
+            const findProfile = await findMyProfile(userLogin.userId)
+            
+            return findProfile
+        }
 
     },
 
