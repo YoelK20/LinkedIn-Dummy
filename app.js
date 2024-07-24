@@ -5,10 +5,11 @@ const { mongoConnect } = require("./config/mongoConnection");
 const { userTypeDefs, userResolvers } = require("./schemas/user");
 const authentication = require("./helpers/auth");
 const { postTypeDefs, postResolvers } = require("./schemas/post");
+const { followTypeDefs, followResolver } = require("./schemas/follow");
 
 const server = new ApolloServer({
-    typeDefs: [userTypeDefs, postTypeDefs],
-    resolvers: [userResolvers, postResolvers]
+    typeDefs: [userTypeDefs, postTypeDefs, followTypeDefs],
+    resolvers: [userResolvers, postResolvers, followResolver]
 });
 
 (async () => {
@@ -16,7 +17,7 @@ const server = new ApolloServer({
         await mongoConnect()
 
         const { url } = await startStandaloneServer(server, {
-            context: async ({req, res}) => {
+            context: async ({ req, res }) => {
                 return {
                     authentication: async () => {
                         return await authentication(req)

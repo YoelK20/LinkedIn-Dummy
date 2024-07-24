@@ -9,6 +9,8 @@ const typeDefs = `#graphql
         username: String
         email: String
         password: String
+        follower: [User]
+        following: [User]
     }
 
     input CreateUserInput {

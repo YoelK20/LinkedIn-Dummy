@@ -12,10 +12,54 @@ const findAllUser = async () => {
             '$project': {
                 'password': 0
             }
-        }
+        },
+        {
+            '$lookup': {
+              'from': 'Follow', 
+              'localField': '_id', 
+              'foreignField': 'followingId', 
+              'as': 'follower'
+            }
+          }, {
+            '$lookup': {
+              'from': 'Follow', 
+              'localField': '_id', 
+              'foreignField': 'followerId', 
+              'as': 'following'
+            }
+          }, {
+            '$lookup': {
+              'from': 'Users', 
+              'localField': 'follower.followerId', 
+              'foreignField': '_id', 
+              'as': 'follower'
+            }
+          }, {
+            '$lookup': {
+              'from': 'Users', 
+              'localField': 'following.followingId', 
+              'foreignField': '_id', 
+              'as': 'following'
+            }
+          }, {
+            '$project': {
+              'follower._id': 0, 
+              'following._id': 0, 
+              'follower.createdAt': 0, 
+              'follower.updatedAt': 0, 
+              'following.createdAt': 0, 
+              'following.updatedAt': 0, 
+              'follower.email': 0, 
+              'follower.name': 0, 
+              'follower.password': 0, 
+              'following.email': 0, 
+              'following.name': 0, 
+              'following.password': 0
+            }
+          }
     ]
     const users = await UserDB().aggregate(agg).toArray()
-
+    console.log(users);
     return users
 }
 
@@ -29,9 +73,52 @@ const findUserById = async (id) => {
         }, {
             '$project': {
                 'password': 0,
-                '_id': 0
             }
-        }
+        },
+        {
+            '$lookup': {
+              'from': 'Follow', 
+              'localField': '_id', 
+              'foreignField': 'followingId', 
+              'as': 'follower'
+            }
+          }, {
+            '$lookup': {
+              'from': 'Follow', 
+              'localField': '_id', 
+              'foreignField': 'followerId', 
+              'as': 'following'
+            }
+          }, {
+            '$lookup': {
+              'from': 'Users', 
+              'localField': 'follower.followerId', 
+              'foreignField': '_id', 
+              'as': 'follower'
+            }
+          }, {
+            '$lookup': {
+              'from': 'Users', 
+              'localField': 'following.followingId', 
+              'foreignField': '_id', 
+              'as': 'following'
+            }
+          }, {
+            '$project': {
+              'follower._id': 0, 
+              'following._id': 0, 
+              'follower.createdAt': 0, 
+              'follower.updatedAt': 0, 
+              'following.createdAt': 0, 
+              'following.updatedAt': 0, 
+              'follower.email': 0, 
+              'follower.name': 0, 
+              'follower.password': 0, 
+              'following.email': 0, 
+              'following.name': 0, 
+              'following.password': 0
+            }
+          }
     ];
 
     const user = await UserDB().aggregate(agg).toArray()
@@ -42,29 +129,71 @@ const findUserById = async (id) => {
 const findUserByQuery = async (query) => {
     const agg = [
         {
-            '$match': {
-                '$or': [
-                    {
-                        'username': {
-                            '$regex': `(?i)${query}(?-i)`
-                        }
-                    }, {
-                        'name': {
-                            '$regex': `(?i)${query}(?-i)`
-                        }
-                    }
-                ]
-            }
+          '$match': {
+            '$or': [
+              {
+                'username': {
+                  '$regex': `(?i)${query}(?-i)`
+                }
+              }, {
+                'name': {
+                  '$regex': `(?i)${query}(?-i)`
+                }
+              }
+            ]
+          }
         }, {
-            '$project': {
-                'password': 0,
-                '_id': 0
-            }
+          '$project': {
+            'password': 0
+          }
+        }, {
+          '$lookup': {
+            'from': 'Follow', 
+            'localField': '_id', 
+            'foreignField': 'followingId', 
+            'as': 'follower'
+          }
+        }, {
+          '$lookup': {
+            'from': 'Follow', 
+            'localField': '_id', 
+            'foreignField': 'followerId', 
+            'as': 'following'
+          }
+        }, {
+          '$lookup': {
+            'from': 'Users', 
+            'localField': 'follower.followerId', 
+            'foreignField': '_id', 
+            'as': 'follower'
+          }
+        }, {
+          '$lookup': {
+            'from': 'Users', 
+            'localField': 'following.followingId', 
+            'foreignField': '_id', 
+            'as': 'following'
+          }
+        }, {
+          '$project': {
+            'follower._id': 0, 
+            'following._id': 0, 
+            'follower.createdAt': 0, 
+            'follower.updatedAt': 0, 
+            'following.createdAt': 0, 
+            'following.updatedAt': 0, 
+            'follower.email': 0, 
+            'follower.name': 0, 
+            'follower.password': 0, 
+            'following.email': 0, 
+            'following.name': 0, 
+            'following.password': 0
+          }
         }
-    ];
+      ];
 
     const user = await UserDB().aggregate(agg).toArray()
-    console.log(user);
+    // console.log(user);
     return user[0]
 }
 

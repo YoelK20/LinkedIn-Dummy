@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb")
 const { getDatabase } = require("../config/mongoConnection")
 
 
@@ -7,11 +8,12 @@ const tableFollow = () => {
 }
 
 const followUser = async (data) => {
-    const follower = await tableFollow().insertOne(data)
+    const newFollowing = await tableFollow().insertOne(data)
+    const dataFollowing = await tableFollow().findOne({
+        _id: new ObjectId(newFollowing.insertedId)
+    })
 
-    const showFollower = await tableFollow().find().toArray()
-
-    return showFollower
+    return dataFollowing
 }
 
 module.exports = { followUser }
