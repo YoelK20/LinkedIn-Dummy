@@ -63,7 +63,7 @@ const resolvers = {
         getPost: async () => {
 
             const postCache = await redis.get(Posts_data)
-            console.log(postCache);
+            // console.log(postCache);
             if(postCache) {
                 return JSON.parse(postCache)
             }
