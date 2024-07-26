@@ -133,7 +133,7 @@ const resolvers = {
 
         userLogin: async (_parent, args) => {
             const { email, password } = args.input
-
+            console.log(args);
             const isEmailValid = await findUserByEmail(email)
             if (!isEmailValid) {
 

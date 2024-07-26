@@ -9,8 +9,49 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../assets/LogoLinkedIn.png";
+import { useContext, useState } from "react";
+import { LoginContext } from "../contexts/LoginContext";
+import { useMutation } from "@apollo/client";
+import { DO_LOGIN } from "../queries";
+import { ActivityIndicator } from "react-native-paper";
 
 export default function LoginScreen({ navigation }) {
+  const { setLoggedIn } = useContext(LoginContext);
+  const [form, setForm] = useState({ email: "", password: "" });
+
+  const [loginFunction, { data, loading, error }] = useMutation(DO_LOGIN, {
+    onCompleted: async (res) => {
+      const token = res?.userLogin?.access_token || "";
+      if (token) {
+        await setLoggedIn(token);
+        navigation.navigate("home");
+      }
+    },
+  });
+
+  const onChangeForm = (key, value) => {
+    setForm({
+      ...form,
+      [key]: value,
+    });
+  };
+
+  const handleLogin = async () => {
+    try {
+      // console.log(form.email, form.password);
+      await loginFunction({
+        variables: {
+          input: {
+            email: form.email,
+            password: form.password,
+          },
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.imageContainer}>
@@ -29,19 +70,24 @@ export default function LoginScreen({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Email"
-          // value={email}
-          // onChangeText={setEmail}
+          value={form.email}
+          onChangeText={(v) => onChangeForm("email", v)}
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
           secureTextEntry
-          // value={password}
-          // onChangeText={setPassword}
+          value={form.password}
+          onChangeText={(v) => onChangeForm("password", v)}
         />
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Sign In</Text>
-        </TouchableOpacity>
+
+        {loading ? (
+          <ActivityIndicator size={"large"} color="#1B75BB" />
+        ) : (
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Sign In</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );
