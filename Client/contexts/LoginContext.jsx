@@ -31,7 +31,7 @@ export const LoginProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // checkToken();
+    checkToken();
   }, []);
   // console.log({token, isLogin}, "<<< ini token dari LoginContext");
 
