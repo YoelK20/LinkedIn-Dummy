@@ -12,7 +12,7 @@ const CustomSearchBar = ({ searchQuery, onChangeSearch, onSearch }) => {
         value={searchQuery}
         onChangeText={onChangeSearch}
       />
-      <Button mode="contained" onPress={onSearch} style={styles.searchButton}>
+      <Button mode="contained" onPress={onSearch} style={styles.searchButton} theme={{colors: {primary: "#1B75BB"}}}>
         Search
       </Button>
     </View>

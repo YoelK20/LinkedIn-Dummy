@@ -16,7 +16,7 @@ export const ProfilePage = ({ navigation }) => {
   const { error, loading, data } = useQuery(GET_USER_PROFILE);
 
   const profileData = data?.getMyProfile || {}
-  console.log(data?.getMyProfile?.name);
+  // console.log(data?.getMyProfile?.name);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

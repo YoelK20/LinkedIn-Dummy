@@ -54,6 +54,7 @@ const AddPostForm = ({ navigation }) => {
         onChangeText={(vl) => onChangeForm("content", vl)}
         mode="outlined"
         style={styles.input}
+        theme={{colors: {primary: "#1B75BB"}}}
       />
       <TextInput
         label="Image URL"
@@ -61,6 +62,7 @@ const AddPostForm = ({ navigation }) => {
         onChangeText={(vl) => onChangeForm("imageUrl", vl)}
         mode="outlined"
         style={styles.input}
+        theme={{colors: {primary: "#1B75BB"}}}
       />
       <TextInput
         label="Tags"
@@ -68,8 +70,9 @@ const AddPostForm = ({ navigation }) => {
         onChangeText={(vl) => onChangeForm("tags", vl)}
         mode="outlined"
         style={styles.input}
+        theme={{colors: {primary: "#1B75BB"}}}
       />
-      <Button mode="contained" onPress={handleSubmit} style={styles.button}>
+      <Button mode="contained" onPress={handleSubmit} style={styles.button} theme={{colors: {primary: "#1B75BB"}}}>
         Submit
       </Button>
     </View>
@@ -87,8 +90,8 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 10,
-  },
-  button: {
+},
+button: {
     marginTop: 10,
   },
 });
