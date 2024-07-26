@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
+import { client } from "../config/apollo";
 
 async function saveToken(value = "") {
   return await SecureStore.setItemAsync("token", value);
@@ -33,7 +34,8 @@ export const LoginProvider = ({ children }) => {
   useEffect(() => {
     checkToken();
   }, []);
-  // console.log({token, isLogin}, "<<< ini token dari LoginContext");
+
+  console.log({token, isLogin}, "<<< ini token dari LoginContext");
 
   const setLoggedIn = async (value) => {
     try {
@@ -51,6 +53,7 @@ export const LoginProvider = ({ children }) => {
       await SecureStore.deleteItemAsync("token")
       setToken("")
       setIsLogin(false)
+      await client.resetStore()
     } catch (error) {
       console.log(error);
       throw error

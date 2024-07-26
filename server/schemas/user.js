@@ -72,7 +72,7 @@ const resolvers = {
         getMyProfile: async (_parent, _args, contextValue) => {
             const userLogin = await contextValue.authentication()
             const findProfile = await findMyProfile(userLogin.userId)
-            
+            console.log(userLogin);
             return findProfile
         }
 
