@@ -77,3 +77,60 @@ query Query {
   }
 }
 `
+export const SEARCH_USER = gql`
+query Query($query: String!) {
+  getUserByQuery(query: $query) {
+    _id
+    name
+    username
+    email
+    password
+    follower {
+      _id
+      name
+      username
+      email
+      password
+    }
+    following {
+      _id
+      name
+      username
+      email
+      password
+    }
+  }
+}
+`
+
+export const ADD_POST = gql`
+mutation Mutation($input: CreatePostInput) {
+  addPost(input: $input) {
+    _id
+    content
+    tags
+    imgUrl
+    authorId
+    author {
+      _id
+      name
+      username
+      email
+      password
+    }
+    comments {
+      content
+      username
+      createdAt
+      updatedAt
+    }
+    likes {
+      username
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+`

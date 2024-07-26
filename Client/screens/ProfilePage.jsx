@@ -15,12 +15,6 @@ export const ProfilePage = ({ navigation }) => {
   };
   const { error, loading, data } = useQuery(GET_USER_PROFILE);
 
-//   useFocusEffect(
-//     React.useCallback(() => {
-//        return () => dispatcher()
-//     //   return () => unsubscribe();
-//     }, [])
-//   );
   const profileData = data?.getMyProfile || {}
   console.log(data?.getMyProfile?.name);
 

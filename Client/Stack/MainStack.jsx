@@ -4,9 +4,7 @@ import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import { useContext } from "react";
 import { LoginContext } from "../contexts/LoginContext";
-import { HomePage } from "../screens/HomePage";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { MyTab } from "./Tab/TabScreen";
+import { MyTab } from "./Tab/TabScreen"
 
 const Stack = createNativeStackNavigator();
 export default function MainStack() {
