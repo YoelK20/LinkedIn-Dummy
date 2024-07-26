@@ -22,8 +22,8 @@ export function MyTab() {
             iconName = focused
               ? "search-circle-sharp"
               : "search-circle-outline";
-          } else if(route.name == "Add"){
-            iconName = focused ? "add-circle-sharp" : "add-circle-outline"
+          } else if (route.name == "Add") {
+            iconName = focused ? "add-circle-sharp" : "add-circle-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },

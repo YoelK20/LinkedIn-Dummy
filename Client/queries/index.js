@@ -134,3 +134,28 @@ mutation Mutation($input: CreatePostInput) {
   }
 }
 `
+export const GET_USER_DATA = gql`
+query Query {
+  getUsers {
+    _id
+    name
+    username
+    email
+    password
+    follower {
+      _id
+      name
+      username
+      email
+      password
+    }
+    following {
+      _id
+      name
+      username
+      email
+      password
+    }
+  }
+}
+`

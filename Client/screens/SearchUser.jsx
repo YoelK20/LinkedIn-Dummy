@@ -1,20 +1,17 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import UserCard from "./components/UserCard";
 import CustomSearchBar from "./components/SearchBar";
-import { useLazyQuery } from "@apollo/client";
-import { SEARCH_USER } from "../queries";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { GET_USER_DATA, SEARCH_USER } from "../queries";
 
-const users = [
-  { id: 1, name: "John Doe", email: "john@example.com" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com" },
-];
+
 
 export const SearchUser = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const {data, loading, error} = useQuery(GET_USER_DATA)
+  const users = data?.getUsers
   const [filteredUsers, setFilteredUsers] = useState(users);
-  const [search, { data }] = useLazyQuery(SEARCH_USER);
-
   const onChangeSearch = (query) => {
     setSearchQuery(query);
   };
@@ -40,11 +37,12 @@ export const SearchUser = () => {
         onChangeSearch={onChangeSearch}
         onSearch={onSearch}
       />
-      <ScrollView>
-        {filteredUsers.map((user) => (
-          <UserCard key={user.id} user={user} />
-        ))}
-      </ScrollView>
+      <FlatList
+        data={filteredUsers}
+        keyExtractor={(item) => item._id}
+        renderItem={({ item }) => <UserCard user={item} />}
+        contentContainerStyle={styles.list}
+      />
     </View>
   );
 };

@@ -35,7 +35,7 @@ export const LoginProvider = ({ children }) => {
     checkToken();
   }, []);
 
-  console.log({token, isLogin}, "<<< ini token dari LoginContext");
+  // console.log({token, isLogin}, "<<< ini token dari LoginContext");
 
   const setLoggedIn = async (value) => {
     try {
