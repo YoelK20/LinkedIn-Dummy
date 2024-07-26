@@ -1,4 +1,7 @@
-require("dotenv").config()
+if(process.env.NODE_ENV !== "production"){
+    require("dotenv").config()
+
+}
 const { ApolloServer } = require("@apollo/server")
 const { startStandaloneServer } = require("@apollo/server/standalone");
 const { mongoConnect } = require("./config/mongoConnection");
@@ -9,7 +12,8 @@ const { followTypeDefs, followResolver } = require("./schemas/follow");
 
 const server = new ApolloServer({
     typeDefs: [userTypeDefs, postTypeDefs, followTypeDefs],
-    resolvers: [userResolvers, postResolvers, followResolver]
+    resolvers: [userResolvers, postResolvers, followResolver],
+    introspection: true
 });
 
 (async () => {
@@ -24,7 +28,7 @@ const server = new ApolloServer({
                     }
                 }
             },
-            listen: { port: 3000 }
+            listen: { port: process.env.PORT || 3000 }
         });
 
         console.log(`🚀  Server ready at: ${url}`);

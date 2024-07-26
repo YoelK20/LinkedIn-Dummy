@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { LoginContext } from "../contexts/LoginContext";
 import { HomePage } from "../screens/HomePage";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { MyTab } from "./Tab/TabScreen";
 
 const Stack = createNativeStackNavigator();
 export default function MainStack() {
@@ -19,7 +20,8 @@ export default function MainStack() {
         >
           {isLogin ? (
             <>
-              <Stack.Screen name="home" component={HomePage} />
+              {/* <Stack.Screen name="home" component={HomePage} /> */}
+              <Stack.Screen name="home" component={MyTab} options={{headerShown: false}}/> 
             </>
           ) : (
             <>
