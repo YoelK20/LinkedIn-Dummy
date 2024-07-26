@@ -60,7 +60,7 @@ export default function RegisterScreen({ navigation }) {
     }
   };
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.safeArea}>
       <View style={styles.imageContainer}>
         <Image source={logo} style={styles.image} />
       </View>
@@ -109,7 +109,7 @@ export default function RegisterScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 

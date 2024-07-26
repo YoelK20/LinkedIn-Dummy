@@ -50,7 +50,7 @@ export const HomePage = () => {
 
   return (
     // <ScrollView>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View>
           <FlatList
             data={data}
@@ -58,7 +58,7 @@ export const HomePage = () => {
             renderItem={renderItem}
           />
         </View>
-      </SafeAreaView>
+      </View>
     // </ScrollView>
   );
 };
