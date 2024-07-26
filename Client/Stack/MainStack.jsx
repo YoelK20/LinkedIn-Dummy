@@ -12,7 +12,7 @@ export default function MainStack() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="login"
+        initialRouteName="register"
         screenOptions={{ headerShown: false }}
       >
         {isLogin ? (

@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Card, Title, Paragraph, Chip } from "react-native-paper";
 import { AntDesign } from '@expo/vector-icons';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // PostCard component
 const PostCard = ({ post }) => (
@@ -29,7 +29,7 @@ const PostCard = ({ post }) => (
         </TouchableOpacity>
         <TouchableOpacity>
           <View style={styles.iconContainer}>
-            <Paragraph style={styles.icon}>💬</Paragraph>
+          <MaterialCommunityIcons name="comment-text-multiple-outline" style={styles.icon} />
             <Paragraph>{post.comments.length}</Paragraph>
           </View>
         </TouchableOpacity>
@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   icon: {
-    fontSize: 18,
-    color: "blue",
+    fontSize: 28,
+    color: "#1B75BB",
     marginRight: 4,
   },
 });

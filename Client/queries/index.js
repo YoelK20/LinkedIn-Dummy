@@ -8,3 +8,16 @@ mutation UserLogin($input: ReqLogin) {
       access_token
     }
   }`
+
+export const DO_REGISTER = gql`
+
+mutation UserLogin($input: CreateUserInput) {
+  registerUser(input: $input) {
+    _id
+    name
+    username
+    email
+    password
+  }
+}
+`

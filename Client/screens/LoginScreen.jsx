@@ -66,29 +66,31 @@ export default function LoginScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={form.email}
-          onChangeText={(v) => onChangeForm("email", v)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          value={form.password}
-          onChangeText={(v) => onChangeForm("password", v)}
-        />
 
-        {loading ? (
+      {loading ? (
+        <View style={styles.loadingContainer}>
           <ActivityIndicator size={"large"} color="#1B75BB" />
-        ) : (
+        </View>
+      ) : (
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={form.email}
+            onChangeText={(v) => onChangeForm("email", v)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry
+            value={form.password}
+            onChangeText={(v) => onChangeForm("password", v)}
+          />
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Sign In</Text>
           </TouchableOpacity>
-        )}
-      </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -156,5 +158,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
