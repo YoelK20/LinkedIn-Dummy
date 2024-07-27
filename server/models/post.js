@@ -65,7 +65,7 @@ const findPostById = async (id) => {
       }
     }, {
       '$match': {
-        '_id': new ObjectId('669f80e30d43a7fbd0fb0e93')
+        '_id': new ObjectId(id)
       }
     }
   ]
