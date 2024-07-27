@@ -34,7 +34,7 @@ const typeDefs = `#graphql
     type Query {
         getUsers: [User]
         getUserById(_id: ID): User
-        getUserByQuery(query: String!): User
+        getUserByQuery(query: String!): [User]
         getMyProfile: User
     }
 

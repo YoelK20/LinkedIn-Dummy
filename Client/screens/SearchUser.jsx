@@ -13,12 +13,12 @@ export const SearchUser = () => {
   const [searchUser, { data }] = useLazyQuery(SEARCH_USER);
   // console.log(data._id);
   const datas = data?.getUserByQuery || {};
-  console.log(datas);
+  // console.log(datas.name);
 
   const onChangeSearch = (query) => {
     setSearchQuery(query);
-    searchUser({ variables: { query: query } });
-    // console.log(datas);
+    searchUser({ variables: { query: searchQuery } });
+    console.log(data);
   };
 
   // const onSearch = () => {

@@ -139,7 +139,6 @@ const findUserByQuery = async (query) => {
     }];
 
   const user = await UserDB().aggregate(agg).toArray()
-  // console.log(user);
   return user
 }
 
