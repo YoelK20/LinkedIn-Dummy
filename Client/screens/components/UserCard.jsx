@@ -1,12 +1,26 @@
+import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Title, Paragraph, Button } from 'react-native-paper';
+import { FOLLOW_USER } from '../../queries';
 
 const UserCard = ({ user }) => {
   const [isFollowing, setIsFollowing] = useState(false);
+  const [addFollow, {}] = useMutation(FOLLOW_USER)
 
-  const handleFollow = () => {
+  const handleFollow = async () => {
     setIsFollowing(!isFollowing);
+    try {
+      await addFollow({
+        variables: {
+          input: {
+            followingId: user._id
+          }
+        }
+      })
+    } catch (error) {
+      
+    }
   };
   
   return (

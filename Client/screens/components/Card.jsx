@@ -3,8 +3,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Card, Title, Paragraph, Chip } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useLazyQuery } from "@apollo/client";
-import { GET_POSTS_DETAIL } from "../../queries";
+
 
 // PostCard component
 const PostCard = ({ post, navigation }) => {
@@ -16,7 +15,7 @@ const PostCard = ({ post, navigation }) => {
         <Card.Cover source={{ uri: post.imgUrl }} style={styles.image} />
         <Card.Content>
           <Title>{post.content}</Title>
-          <Paragraph>@{post.author.username}</Paragraph>
+          <Paragraph>@{post.author.username}</Paragraph>  
           {/* <Paragraph>{post._id}</Paragraph> */}
           <View style={styles.tagsContainer}>
             {post.tags.map((tag, tagIndex) => (

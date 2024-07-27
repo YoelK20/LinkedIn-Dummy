@@ -1,4 +1,4 @@
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
 import {
@@ -14,13 +14,71 @@ import {
   Appbar,
   ActivityIndicator,
 } from "react-native-paper";
-import { GET_POSTS_DETAIL } from "../queries";
+import { ADD_COMMENT, ADD_LIKES, GET_POSTS_DETAIL } from "../queries";
 
 const PostDetail = ({ navigation, route }) => {
   const { post_id } = route.params;
 
   const [detail, { data, loading, error }] = useLazyQuery(GET_POSTS_DETAIL);
   const [post, setPost] = useState(null);
+  const [likes, setLikes] = useState(0);
+  const [newComment, setNewComment] = useState("");
+  const [comments, setComments] = useState([]);
+
+  const [addComments, {}] = useMutation(ADD_COMMENT, {
+    onCompleted: (res) => {
+       setNewComment("")
+       detail({ variables: { getPostByIdId: post_id } });
+    }
+  });
+
+  const [addLikes, {}] = useMutation(ADD_LIKES,{
+
+      onCompleted: (res) => {
+        detail({ variables: { getPostByIdId: post_id } });
+      }
+  });
+  
+  const handleLike = async () => {
+    // setLikes(likes + 1); 
+    try {
+        await addLikes({
+            variables: {
+                input: {
+                    postId: post_id
+                }
+            }
+        })
+    } catch (error) {
+        console.log(error);
+    }   
+  };
+
+  const handleAddComment = async () => {
+    // if (newComment.trim()) {
+    //   const newCommentObj = {
+    //     content: newComment,
+    //     username: "currentUsername",
+    //     createdAt: new Date().toISOString(),
+    //     updatedAt: new Date().toISOString(),
+    //   };
+
+    //   setComments([...comments, newCommentObj]);
+    //   setNewComment("");
+    // }
+    try {
+        await addComments({
+            variables: {
+                input: {
+                    content: newComment,
+                    postId: post_id,
+                }
+            }
+        })
+    } catch (error) {
+        console.log(error);
+    }
+  };
 
   useEffect(() => {
     detail({ variables: { getPostByIdId: post_id } });
@@ -34,28 +92,7 @@ const PostDetail = ({ navigation, route }) => {
     }
   }, [data]);
 
-  console.log(post);
-  const [likes, setLikes] = useState(0);
-  const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState([]);
-
-  const handleLike = () => {
-    setLikes(likes + 1);
-  };
-
-  const handleAddComment = () => {
-    if (newComment.trim()) {
-      const newCommentObj = {
-        content: newComment,
-        username: "currentUsername",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-      detail({ variables: { getPostByIdId: post_id } });
-    //   setComments([...comments, newCommentObj]);
-    //   setNewComment("");
-    }
-  };
+//   console.log(post);
 
   return (
         <View style={{ flex: 1, marginTop: "-10%" }}>

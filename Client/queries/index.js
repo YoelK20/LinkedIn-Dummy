@@ -190,3 +190,74 @@ query Query($getPostByIdId: ID) {
   }
 }
 `
+export const ADD_COMMENT = gql`
+mutation Mutation($input: CreateComments) {
+  addComment(input: $input) {
+    _id
+    content
+    tags
+    imgUrl
+    authorId
+    author {
+      _id
+      name
+      username
+      email
+    }
+    comments {
+      content
+      username
+      createdAt
+      updatedAt
+    }
+    likes {
+      username
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+`
+export const ADD_LIKES = gql`
+mutation Mutation($input: CreateLikes) {
+  addLikes(input: $input) {
+    _id
+    content
+    tags
+    imgUrl
+    authorId
+    author {
+      _id
+      username
+      email
+      name
+    }
+    comments {
+      content
+      username
+      createdAt
+      updatedAt
+    }
+    likes {
+      username
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+`
+export const FOLLOW_USER = gql`
+mutation Mutation($input: GenerateFollower) {
+  addFollowing(input: $input) {
+    _id
+    followingId
+    followerId
+    createdAt
+    updatedAt
+  }
+}
+`
