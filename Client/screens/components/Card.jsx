@@ -10,7 +10,7 @@ const PostCard = ({ post }) => (
     <Card.Cover source={{ uri: post.imgUrl }} style={styles.image} />
     <Card.Content>
       <Title>{post.content}</Title>
-      <Paragraph>{post.author.username}</Paragraph>
+      <Paragraph>@{post.author.username}</Paragraph>
       <View style={styles.tagsContainer}>
         {post.tags.map((tag, tagIndex) => (
           <Chip key={tagIndex} style={styles.tag}>

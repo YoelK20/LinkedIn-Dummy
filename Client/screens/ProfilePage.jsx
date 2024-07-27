@@ -4,7 +4,6 @@ import { GET_USER_PROFILE } from "../queries";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import React, { useContext } from "react";
 import { LoginContext } from "../contexts/LoginContext";
-import { useFocusEffect } from "@react-navigation/native";
 
 export const ProfilePage = ({ navigation }) => {
   const { deleteLoggedIn, token } = useContext(LoginContext);

@@ -6,6 +6,7 @@ import {
   View,
   TextInput,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../assets/LogoLinkedIn.png";
 import { useContext, useState } from "react";
 import { LoginContext } from "../contexts/LoginContext";

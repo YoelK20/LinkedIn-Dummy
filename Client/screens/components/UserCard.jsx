@@ -8,12 +8,12 @@ const UserCard = ({ user }) => {
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
   };
-
+  console.log(user , "<<< ini di UserCard");
   return (
     <Card style={styles.card}>
       <Card.Content>
-        <Title>{user.name}</Title>
-        <Paragraph>{user.email}</Paragraph>
+        <Title>{user?.name}</Title>
+        <Paragraph>@{user?.username}</Paragraph>
       </Card.Content>
       <Card.Actions>
         <Button buttonColor="#1B75BB" mode="contained" onPress={handleFollow}>
