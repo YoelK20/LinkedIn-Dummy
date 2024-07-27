@@ -2,35 +2,25 @@ import React, { useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import UserCard from "./components/UserCard";
 import CustomSearchBar from "./components/SearchBar";
-import { useLazyQuery, useQuery } from "@apollo/client";
-import { GET_USER_DATA, SEARCH_USER } from "../queries";
+import { useLazyQuery } from "@apollo/client";
+import { SEARCH_USER } from "../queries";
 
 export const SearchUser = () => {
-  // const {data, loading, error} = useQuery(GET_USER_DATA)
+  // const {error, loading, data} = useQuery(GET_USER_DATA)
   const [searchQuery, setSearchQuery] = useState("");
-  // const users = data?.getUsers
-  // const [filteredUsers, setFilteredUsers] = useState(users);
-  const [searchUser, { data }] = useLazyQuery(SEARCH_USER);
-  // console.log(data._id);
-  const datas = data?.getUserByQuery || {};
-  // console.log(datas.name);
+  const [searchUser, { error, loading, data }] = useLazyQuery(SEARCH_USER);
+  const datas = data?.getUserByQuery;
 
   const onChangeSearch = (query) => {
     setSearchQuery(query);
-    searchUser({ variables: { query: searchQuery } });
-    console.log(data);
+    searchUser({ variables: { query: query } });
   };
-
-  // const onSearch = () => {
-  //   searchUser({variables: {query: searchQuery}})
-  // };
 
   return (
     <View style={styles.container}>
       <CustomSearchBar
         searchQuery={searchQuery}
         onChangeSearch={onChangeSearch}
-        // onSearch={}
         setSearchQuery={setSearchQuery}
       />
       <FlatList

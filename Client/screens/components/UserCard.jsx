@@ -8,7 +8,7 @@ const UserCard = ({ user }) => {
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
   };
-  console.log(user , "<<< ini di UserCard");
+  
   return (
     <Card style={styles.card}>
       <Card.Content>

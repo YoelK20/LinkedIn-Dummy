@@ -65,7 +65,6 @@ const resolvers = {
         getUserByQuery: async (_parent, args) => {
             const { query } = args
             const user = await findUserByQuery(query)
-
             return user
         },
 

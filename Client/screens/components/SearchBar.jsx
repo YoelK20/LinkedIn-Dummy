@@ -4,20 +4,7 @@ import { Button } from "react-native-paper";
 import { SEARCH_USER } from "../../queries";
 import { useLazyQuery } from "@apollo/client";
 
-const CustomSearchBar = ({ searchQuery, onChangeSearch, onSearch, setSearchQuery }) => {
-
-  const [searchQuerys, setSearchQuerys] = useState("");
-  const [searchUser, {data, loading, error}] = useLazyQuery(SEARCH_USER);
-    const onChangeSearchs = (query) => {
-      setSearchQuerys(query);
-    };
-    const onSearchs = () => {
-        searchUser({
-        variables: {
-            query: searchQuerys
-        }
-    })
-  }
+const CustomSearchBar = ({ searchQuery, onChangeSearch }) => {
 
   return (
     <View style={styles.searchContainer}>
