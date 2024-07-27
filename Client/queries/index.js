@@ -159,3 +159,34 @@ query Query {
   }
 }
 `
+export const GET_POSTS_DETAIL = gql`
+query Query($getPostByIdId: ID) {
+  getPostById(id: $getPostByIdId) {
+    _id
+    content
+    tags
+    imgUrl
+    authorId
+    createdAt
+    updatedAt
+    comments {
+      content
+      username
+      createdAt
+      updatedAt
+    }
+    author {
+      _id
+      name
+      username
+      email
+      password
+    }
+    likes {
+      username
+      createdAt
+      updatedAt
+    }
+  }
+}
+`

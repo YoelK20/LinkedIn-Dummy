@@ -12,9 +12,9 @@ import { useQuery } from "@apollo/client";
 import { GET_POSTS } from "../queries";
 
 
-export const HomePage = () => {
+export const HomePage = ({ navigation }) => {
   const {error, loading, data} = useQuery(GET_POSTS)
-  const renderItem = ({ item }) => <PostCard post={item} />;
+  const renderItem = ({ item }) => <PostCard post={item} navigation={navigation}/>;
 
   return (
       <View style={styles.container}>

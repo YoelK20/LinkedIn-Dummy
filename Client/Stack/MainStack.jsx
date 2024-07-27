@@ -5,6 +5,7 @@ import RegisterScreen from "../screens/RegisterScreen";
 import { useContext } from "react";
 import { LoginContext } from "../contexts/LoginContext";
 import { MyTab } from "./Tab/TabScreen"
+import PostDetail from "../screens/PostDetail";
 
 const Stack = createNativeStackNavigator();
 export default function MainStack() {
@@ -20,6 +21,7 @@ export default function MainStack() {
             <>
               {/* <Stack.Screen name="home" component={HomePage} /> */}
               <Stack.Screen name="home" component={MyTab} options={{headerShown: false}}/> 
+              <Stack.Screen name="detail" component={PostDetail} options={{headerShown: false}}/>
             </>
           ) : (
             <>

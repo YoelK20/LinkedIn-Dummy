@@ -1,42 +1,58 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Card, Title, Paragraph, Chip } from "react-native-paper";
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useLazyQuery } from "@apollo/client";
+import { GET_POSTS_DETAIL } from "../../queries";
 
 // PostCard component
-const PostCard = ({ post }) => (
-  <Card style={styles.card}>
-    <Card.Cover source={{ uri: post.imgUrl }} style={styles.image} />
-    <Card.Content>
-      <Title>{post.content}</Title>
-      <Paragraph>@{post.author.username}</Paragraph>
-      <View style={styles.tagsContainer}>
-        {post.tags.map((tag, tagIndex) => (
-          <Chip key={tagIndex} style={styles.tag}>
-            {tag}
-          </Chip>
-        ))}
-      </View>
-    </Card.Content>
-    <Card.Actions>
-      <View style={styles.actions}>
-        <TouchableOpacity>
-          <View style={styles.iconContainer}>
-          <AntDesign name="like1" style={styles.icon} />
-            <Paragraph>{post.likes.length}</Paragraph>
+const PostCard = ({ post, navigation }) => {
+  return (
+    <TouchableOpacity
+      onPress={() => navigation.navigate("detail", { post_id: post._id })}
+    >
+      <Card style={styles.card}>
+        <Card.Cover source={{ uri: post.imgUrl }} style={styles.image} />
+        <Card.Content>
+          <Title>{post.content}</Title>
+          <Paragraph>@{post.author.username}</Paragraph>
+          {/* <Paragraph>{post._id}</Paragraph> */}
+          <View style={styles.tagsContainer}>
+            {post.tags.map((tag, tagIndex) => (
+              <Chip
+                key={tagIndex}
+                style={styles.tag}
+                theme={{ colors: { primary: "#b1e3f0" } }}
+              >
+                {tag}
+              </Chip>
+            ))}
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.iconContainer}>
-          <MaterialCommunityIcons name="comment-text-multiple-outline" style={styles.icon} />
-            <Paragraph>{post.comments.length}</Paragraph>
+        </Card.Content>
+        <Card.Actions>
+          <View style={styles.actions}>
+            <TouchableOpacity>
+              <View style={styles.iconContainer}>
+                <AntDesign name="like1" style={styles.icon} />
+                <Paragraph>{post.likes.length}</Paragraph>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View style={styles.iconContainer}>
+                <MaterialCommunityIcons
+                  name="comment-text-multiple-outline"
+                  style={styles.icon}
+                />
+                <Paragraph>{post.comments.length}</Paragraph>
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-      </View>
-    </Card.Actions>
-  </Card>
-);
+        </Card.Actions>
+      </Card>
+    </TouchableOpacity>
+  );
+};
 
 // Styles
 const styles = StyleSheet.create({
