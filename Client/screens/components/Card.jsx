@@ -31,13 +31,13 @@ const PostCard = ({ post, navigation }) => {
         </Card.Content>
         <Card.Actions>
           <View style={styles.actions}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.navigate("detail")}>
               <View style={styles.iconContainer}>
                 <AntDesign name="like1" style={styles.icon} />
                 <Paragraph>{post.likes.length}</Paragraph>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.navigate("detail")}>
               <View style={styles.iconContainer}>
                 <MaterialCommunityIcons
                   name="comment-text-multiple-outline"

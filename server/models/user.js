@@ -59,7 +59,7 @@ const findAllUser = async () => {
     }
   ]
   const users = await UserDB().aggregate(agg).toArray()
-  console.log(users);
+  // console.log(users);
   return users
 }
 
