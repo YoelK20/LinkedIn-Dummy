@@ -102,7 +102,7 @@ const createLikes = async (id, data) => {
     { $push: { likes: data } }
   )
 
-  const postData = await PostsTable().findOne({
+  const postData = await findPostById({
     _id: new ObjectId(id)
   })
 
