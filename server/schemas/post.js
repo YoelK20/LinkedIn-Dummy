@@ -130,7 +130,7 @@ const resolvers = {
                 updatedAt: new Date()
             }
             )
-
+            console.log(likes, "<<< ini di schemas");
             redis.del(Posts_data)
             return likes
         }

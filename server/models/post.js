@@ -89,9 +89,7 @@ const createComment = async (id, data) => {
     { $push: { comments: data } }
   )
 
-  const postData = await PostsTable().findOne({
-    _id: new ObjectId(id)
-  })
+  const postData = await findPostById(id)
 
   return postData
 }
@@ -102,9 +100,7 @@ const createLikes = async (id, data) => {
     { $push: { likes: data } }
   )
 
-  const postData = await findPostById({
-    _id: new ObjectId(id)
-  })
+  const postData = await findPostById(id)
 
   return postData
 }
